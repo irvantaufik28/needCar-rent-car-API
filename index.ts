@@ -4,6 +4,7 @@ import morgan from "morgan"
 import compression from "compression"
 import helmet from "helmet"
 import cors from "cors"
+import { config as dotenv } from 'dotenv'
 
 
 // Roters
@@ -14,7 +15,8 @@ class App {
   constructor() {
     this.app = express()
     this.plugins();   
-    this.routes(); 
+    this.routes();
+    dotenv(); 
   }
 
   protected plugins(): void {
@@ -40,4 +42,5 @@ const app = new App().app;
 
 app.listen(port, () => {
   console.log(`server running at port ${port}`)
+  console.log(process.env.DB_HOST)
 })

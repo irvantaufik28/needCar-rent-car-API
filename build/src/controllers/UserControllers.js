@@ -20,7 +20,8 @@ class UserController {
     }
     show(req, res) {
         const { id } = req.params;
-        let person = data.find(item => item.id = id);
+        let person = data.find(item => item.id == id);
+        console.log(person);
         return res.send(person);
     }
     update(req, res) {
