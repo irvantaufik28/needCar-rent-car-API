@@ -1,19 +1,21 @@
-const path = require('path')
+const { resolve } = require("path");
+require('dotenv').config()
 
-require('dotenv').config();
-if (process.env.NODE_ENV == 'development') {
-
+if(process.env.NODE_ENV == 'development') {
+    
     module.exports = {
-        'config': path.resolve('src/config', 'database.js'),
-        'models-path': path.resolve('src', 'models'),
-        'seeders-path': path.resolve('src/database', 'seeders'),
-        'migrations-path': path.resolve('src/database', 'migrations')
-    }
+      config: resolve("src/config", "config.js"),
+      "models-path": resolve("src", "models"),
+      "migrations-path": resolve("src/database", "migrations"),
+      "seeders-path": resolve("src/database", "seeders"),
+    };
 } else {
     module.exports = {
-        'config': path.resolve('build/config', 'database.js'),
-        'models-path': path.resolve('build', 'models'),
-        'seeders-path': path.resolve('build/database', 'seeders'),
-        'migrations-path': path.resolve('build/database', 'migrations')
-    }
+        config: resolve("build/config", "config.js"),
+        "models-path": resolve("build", "models"),
+        "migrations-path": resolve("build/database", "migrations"),
+        "seeders-path": resolve("build/database", "seeders"),
+      };
+
 }
+
