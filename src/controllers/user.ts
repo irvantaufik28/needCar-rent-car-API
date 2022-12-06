@@ -1,4 +1,5 @@
 import {Request , Response, NextFunction} from "express";
+import resData from '../helper/response'
 
 class userController {
     getUserById = async (req: Request, res: Response, next: NextFunction) => {
@@ -8,7 +9,7 @@ class userController {
             if (!result.isSuccess) {
                 return res
                 .status(result.statusCode)
-                .json(result.reason)
+                .json(resData.failed(result.reason, result))
             }
             return res
             .status(result.statusCode)
