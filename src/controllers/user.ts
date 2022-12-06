@@ -13,12 +13,13 @@ class userController {
             }
             return res
             .status(result.statusCode)
-            .json(result.data)
+            .json(resData.success(result.data))
             
         } catch (e) {
             next(e)
         }
     }
+    
     getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
         try {
           
@@ -26,11 +27,11 @@ class userController {
             if (!result.isSuccess) {
                 return res
                 .status(result.statusCode)
-                .json(result.reason)
+                .json(resData.failed(result.reason, result))
             }
             return res
             .status(result.statusCode)
-            .json(result.data)
+            .json(resData.success(result.data))
             
         } catch (e) {
             next(e)
