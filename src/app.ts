@@ -20,7 +20,7 @@ import MediaUseCase from "./usecase/mediaUseCase";
 
 const userUC = new UserUseCase(new UserRepo())
 const carUC = new CarUseCase(new CarRepo())
-const mediaUC = new MediaUseCase(new MediaRepo(), sharp, fs, path)
+const mediaUC = new MediaUseCase(new MediaRepo(), sharp, path)
 
 declare global {
   namespace Express {
@@ -31,7 +31,6 @@ declare global {
     }
   }
 }
-
 
 // Routes
 import UserRoutes from './routes/userRouter'
@@ -50,6 +49,8 @@ class App {
 
     protected plugins():void {
       this.app.use(express.json())
+      this.app.use(express.urlencoded({extended: true}))
+      this.app.use("/uploads", express.static("../uploads"))
       this.app.use(morgan('dev'))
       this.app.use(cors())
       this.app.use(helmet())

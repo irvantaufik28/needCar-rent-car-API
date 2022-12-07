@@ -1,11 +1,12 @@
 import BaseRoutes from "./BaseRouter";
 
 // controller
-import carController from "../controllers/mediaController";
+import mediaController from "../controllers/mediaController";
+import upload from "../libs/meidaHandler";
 
 class MediaRouter extends BaseRoutes {
    public routes(): void {
-    this.router.post('/', carController.upload)
+    this.router.post('/',upload.single("image"), mediaController.upload)
    }
 }
 

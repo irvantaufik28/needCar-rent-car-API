@@ -1,12 +1,11 @@
+import fs from "fs"
 class MediaUseCase {
     mediaRepo: any;
     sharp: any;
-    fs: any;
     path: any
-    constructor(mediaRepo: any, sharp: any, fs: any, path: any) {
+    constructor(mediaRepo: any, sharp: any, path: any) {
         this.mediaRepo = mediaRepo;
         this.sharp = sharp;
-        this.fs = fs;
         this.path = path;
     }
 
@@ -33,7 +32,7 @@ class MediaUseCase {
         await this.sharp(file.path).resize(500).jpeg({ quality: 90 }).toFile(smallDestinationPath);
         await this.sharp(file.path).resize(1000).jpeg({ quality: 90 }).toFile(largeDestinationPath);
 
-        this.fs.unlinkSync(file.path);
+        fs.unlinkSync(file.path);
 
         const createData = {
             name: originalFileName,
