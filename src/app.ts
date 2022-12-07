@@ -3,6 +3,7 @@ import morgan from "morgan";
 import cors from "cors"
 import helmet from "helmet";
 import compression from "compression";
+import serverError from "./middleware/serverError";
 
 // Repository
 import UserRepo from "./repository/userRepo";
@@ -27,6 +28,7 @@ declare global {
 
 // Routes
 import UserRoutes from './routes/userRouter'
+import CarRoutes from './routes/carRouter'
 
 
 class App {
@@ -35,6 +37,7 @@ class App {
       this.app = express()
       this.plugins()
       this.routes()
+      this.serverError()
     }
 
     protected plugins():void {
@@ -47,20 +50,17 @@ class App {
       this.app.use((req, res, next) => {
         req.userUC = userUC;
         req.carUC = carUC;
-
-  
         next();
       });
 
     }
 
     protected routes(): void {
-      this.app.route('/').get((req: Request, res: Response) =>{
-        res.json('hello')
-      })
-
-      this.app.use('/api/v1/users', UserRoutes)
-     
+      this.app.use('/api/v1/user', UserRoutes)
+      this.app.use('/api/v1/car', CarRoutes)
+    }
+    protected serverError() {
+      this.app.use(serverError)
     }
   }
   
