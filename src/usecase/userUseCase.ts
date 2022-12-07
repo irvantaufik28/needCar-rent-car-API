@@ -1,4 +1,3 @@
-
 class UserUseCase {
     userRepo: any
     constructor(userRepo: any) {

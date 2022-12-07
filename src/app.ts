@@ -1,26 +1,33 @@
-import express, {Application , Request, Response} from "express";
+import express, { Application } from "express";
 import morgan from "morgan";
 import cors from "cors"
 import helmet from "helmet";
 import compression from "compression";
 import serverError from "./middleware/serverError";
+import sharp from "sharp";
+import path from "path";
+import fs from "fs";
 
 // Repository
 import UserRepo from "./repository/userRepo";
 import CarRepo from "./repository/carRepo";
+import MediaRepo from "./repository/mediaRepo";
 
 // UseCase
 import UserUseCase from "./usecase/userUseCase";
 import CarUseCase from "./usecase/carUseCase";
+import MediaUseCase from "./usecase/mediaUseCase";
 
 const userUC = new UserUseCase(new UserRepo())
 const carUC = new CarUseCase(new CarRepo())
+const mediaUC = new MediaUseCase(new MediaRepo(), sharp, fs, path)
 
 declare global {
   namespace Express {
     export interface Request {
       userUC: any;
       carUC: any;
+      mediaUC: any;
     }
   }
 }
@@ -29,6 +36,7 @@ declare global {
 // Routes
 import UserRoutes from './routes/userRouter'
 import CarRoutes from './routes/carRouter'
+import MediaRoutes from './routes/mediaRouter'
 
 
 class App {
@@ -50,6 +58,7 @@ class App {
       this.app.use((req, res, next) => {
         req.userUC = userUC;
         req.carUC = carUC;
+        req.mediaUC = mediaUC;
         next();
       });
 
@@ -58,10 +67,11 @@ class App {
     protected routes(): void {
       this.app.use('/api/v1/user', UserRoutes)
       this.app.use('/api/v1/car', CarRoutes)
+      this.app.use('/api/v1/upload', MediaRoutes)
     }
     protected serverError() {
       this.app.use(serverError)
     }
   }
   
-  export default App
+  export default App;
