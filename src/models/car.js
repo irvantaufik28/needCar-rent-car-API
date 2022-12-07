@@ -14,10 +14,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Car.init({
-    name: DataTypes.STRING,
+    title: DataTypes.STRING,
     type: DataTypes.STRING,
     cost: DataTypes.INTEGER,
     isAvailable: DataTypes.BOOLEAN,
+    stock: DataTypes.INTEGER,
     photoId: DataTypes.STRING
   }, {
     sequelize,

@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      name: {
+      title: {
         type: Sequelize.STRING
       },
       type: {
@@ -19,6 +19,9 @@ module.exports = {
       },
       isAvailable: {
         type: Sequelize.BOOLEAN
+      },
+      stock: {
+        type: Sequelize.INTEGER
       },
       photoId: {
         type: Sequelize.STRING

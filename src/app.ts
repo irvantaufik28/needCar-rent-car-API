@@ -6,23 +6,27 @@ import compression from "compression";
 
 // Repository
 import UserRepo from "./repository/userRepo";
+import CarRepo from "./repository/carRepo";
 
 // UseCase
-import UserUseCase from "./usecase/user";
+import UserUseCase from "./usecase/userUseCase";
+import CarUseCase from "./usecase/carUseCase";
 
 const userUC = new UserUseCase(new UserRepo())
+const carUC = new CarUseCase(new CarRepo())
 
 declare global {
   namespace Express {
     export interface Request {
       userUC: any;
+      carUC: any;
     }
   }
 }
 
 
 // Routes
-import UserRoutes from './routes/user'
+import UserRoutes from './routes/userRouter'
 
 
 class App {
@@ -42,6 +46,7 @@ class App {
 
       this.app.use((req, res, next) => {
         req.userUC = userUC;
+        req.carUC = carUC;
 
   
         next();

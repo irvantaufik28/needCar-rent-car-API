@@ -1,7 +1,7 @@
 import BaseRoutes from "./BaseRouter";
 
 // controller
-import userController from "../controllers/user";
+import userController from "../controllers/userController";
 
 class UserRoutes extends BaseRoutes {
    public routes(): void {
