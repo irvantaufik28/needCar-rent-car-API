@@ -7,20 +7,24 @@ import serverError from "./middleware/serverError";
 import sharp from "sharp";
 import path from "path";
 import fs from "fs";
+import rentStatus from "./internal/contsant/renStatus"
 
 // Repository
 import UserRepo from "./repository/userRepo";
 import CarRepo from "./repository/carRepo";
 import MediaRepo from "./repository/mediaRepo";
+import RentRepo from "./repository/rentRepo";
 
 // UseCase
 import UserUseCase from "./usecase/userUseCase";
 import CarUseCase from "./usecase/carUseCase";
 import MediaUseCase from "./usecase/mediaUseCase";
+import RentUseCase from "./usecase/rentUseCase";
 
 const userUC = new UserUseCase(new UserRepo())
-const carUC = new CarUseCase(new CarRepo())
-const mediaUC = new MediaUseCase(new MediaRepo(), sharp, path)
+const carUC = new CarUseCase(new CarRepo(), new MediaRepo())
+const mediaUC = new MediaUseCase(new MediaRepo(), sharp, fs, path)
+const rentUC = new RentUseCase(new RentRepo(),new CarRepo(), rentStatus)
 
 declare global {
   namespace Express {
@@ -28,6 +32,7 @@ declare global {
       userUC: any;
       carUC: any;
       mediaUC: any;
+      rentUC: any;
     }
   }
 }
@@ -36,6 +41,7 @@ declare global {
 import UserRoutes from './routes/userRouter'
 import CarRoutes from './routes/carRouter'
 import MediaRoutes from './routes/mediaRouter'
+import RentRotes from './routes/rentRouter'
 
 
 class App {
@@ -60,6 +66,7 @@ class App {
         req.userUC = userUC;
         req.carUC = carUC;
         req.mediaUC = mediaUC;
+        req.rentUC = rentUC
         next();
       });
 
@@ -69,6 +76,7 @@ class App {
       this.app.use('/api/v1/user', UserRoutes)
       this.app.use('/api/v1/car', CarRoutes)
       this.app.use('/api/v1/upload', MediaRoutes)
+      this.app.use('/api/v1/rent', RentRotes)
     }
     protected serverError() {
       this.app.use(serverError)

@@ -46,7 +46,7 @@ class carController {
                 type: req.body.type,
                 cost: req.body.cost,
                 isAvailable: true,
-                stock: req.body.stock,
+                licensePlate: req.body.licensePlate,
                 photoId: req.body.photoId
             }
             const result = await req.carUC.createCar(carData);

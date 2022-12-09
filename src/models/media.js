@@ -18,7 +18,27 @@ module.exports = (sequelize, DataTypes) => {
     large: DataTypes.STRING,
     original: DataTypes.STRING,
     name: DataTypes.STRING,
-    mimeType: DataTypes.STRING
+    mimeType: DataTypes.STRING,
+    smallUrl: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        if (this.small) {
+          const domainUrl = process.env.DOMAIN_URL;
+          return `${domainUrl}/uploads/${this.small}`;
+        }
+        return null;
+      },
+    },
+    largeUrl: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        if (this.large) {
+          const domainUrl = process.env.DOMAIN_URL;
+          return `${domainUrl}/uploads/${this.large}`;
+        }
+        return null;
+      },
+    },
   }, {
     sequelize,
     modelName: 'Media',

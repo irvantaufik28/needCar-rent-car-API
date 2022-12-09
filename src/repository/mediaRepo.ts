@@ -11,6 +11,16 @@ class MediaRepo {
         return media;
     }
 
+    
+    async getMediaById(id: number) {
+        const meida = await this.media.findOne({
+            where: {
+                id
+            }
+        })
+        return meida;
+    }
+
     async deleteMedia(id: number) {
         const meida = await this.media.destroy({
             where: {

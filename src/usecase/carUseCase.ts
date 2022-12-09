@@ -1,7 +1,9 @@
 class CarUseCase {
     carRepo: any
-    constructor(carRepo: any) {
+    mediaRepo: any
+    constructor(carRepo: any, mediaRepo: any) {
         this.carRepo = carRepo;
+        this.mediaRepo = mediaRepo;
     }
 
     async createCar(carData: any) {
@@ -30,9 +32,24 @@ class CarUseCase {
             result.reason = 'Car not found!';
             return result;
         }
+
+        const photo: any = await this.mediaRepo.getMediaById(car.photoId)
+        const carValues: any = {
+            id: car.id,
+            title: car.title,
+            type: car.type,
+            cost: car.cost,
+            isAvailable: car.isAvailable,
+            stock: car.stock,
+            photoId: car.photoId,
+            updatedAt: car.updatedAt,
+            createdAt: car.createdAt,
+            photo,
+        }
+
         result.isSuccess = true;
         result.statusCode = 200;
-        result.data = car;
+        result.data = carValues;
         return result;
     }
 
